@@ -1,0 +1,95 @@
+
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. FILEERR.
+
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+
+           SELECT CUSTOMER-FILE
+               ASSIGN TO "CUSTOMER.DAT"
+               ORGANIZATION IS SEQUENTIAL
+               FILE STATUS IS WS-CUST-STATUS.
+
+       DATA DIVISION.
+       FILE SECTION.
+
+       FD CUSTOMER-FILE.
+       01 CUSTOMER-RECORD PIC X(30).
+
+       WORKING-STORAGE SECTION.
+
+       01 WS-CUST-STATUS PIC XX VALUE SPACES.
+       01 WS-ERROR-COUNT PIC 9 VALUE ZERO.
+
+       PROCEDURE DIVISION.
+
+       DECLARATIVES.
+
+       FILE-ERROR-HANDLER SECTION.
+
+           USE AFTER STANDARD ERROR PROCEDURE
+               ON CUSTOMER-FILE.
+
+       ERROR-PARA.
+
+           ADD 1 TO WS-ERROR-COUNT
+
+           DISPLAY " "
+           DISPLAY "****** FILE ERROR DETECTED ******"
+           DISPLAY "FILE NAME : CUSTOMER-FILE"
+           DISPLAY "STATUS CODE: " WS-CUST-STATUS
+
+           IF WS-CUST-STATUS = "41"
+               DISPLAY "ERROR: FILE IS ALREADY OPEN"
+           ELSE
+               IF WS-CUST-STATUS = "42"
+                   DISPLAY "ERROR: FILE IS NOT OPEN"
+               ELSE
+                   DISPLAY "ERROR: OTHER FILE ERROR"
+               END-IF
+           END-IF
+
+           DISPLAY "*******************************"
+           .
+
+       END DECLARATIVES.
+
+       MAIN-SECTION SECTION.
+
+       MAIN-PARA.
+
+           DISPLAY "STARTING FILE ERROR DEMO"
+
+           DISPLAY " "
+           DISPLAY "STEP 1: OPENING CUSTOMER FILE"
+
+           OPEN INPUT CUSTOMER-FILE
+
+           DISPLAY "FILE STATUS: " WS-CUST-STATUS
+
+           DISPLAY " "
+           DISPLAY "STEP 2: OPENING SAME FILE AGAIN"
+
+           OPEN INPUT CUSTOMER-FILE
+
+           DISPLAY "FILE STATUS: " WS-CUST-STATUS
+
+           DISPLAY " "
+           DISPLAY "STEP 3: CLOSING CUSTOMER FILE"
+
+           CLOSE CUSTOMER-FILE
+
+           DISPLAY "FILE STATUS: " WS-CUST-STATUS
+
+           DISPLAY " "
+           DISPLAY "STEP 4: CLOSING SAME FILE AGAIN"
+
+           CLOSE CUSTOMER-FILE
+
+           DISPLAY "FILE STATUS: " WS-CUST-STATUS
+
+           DISPLAY " "
+           DISPLAY "PROGRAM EXECUTION COMPLETED"
+
+           STOP RUN.
