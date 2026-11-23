@@ -1,0 +1,19 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. FACTORIAL.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 NUM PIC 9(2).
+       01 I PIC 9(2).
+       01 FACT PIC 9(10) VALUE 1.
+
+       PROCEDURE DIVISION.
+           ACCEPT NUM.
+
+           PERFORM VARYING I FROM 1 BY 1 UNTIL I > NUM
+               MULTIPLY I BY FACT
+           END-PERFORM.
+
+           DISPLAY "FACTORIAL: " FACT.
+
+           STOP RUN.
