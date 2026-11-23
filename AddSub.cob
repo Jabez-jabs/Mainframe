@@ -1,0 +1,17 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. ADDNUM.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 NUM1 PIC 9(5).
+       01 NUM2 PIC 9(5).
+       01 RESULT PIC 9(6).
+
+       PROCEDURE DIVISION.
+           ACCEPT NUM1.
+           ACCEPT NUM2.
+
+           ADD NUM1 TO NUM2 GIVING RESULT.
+
+           DISPLAY "SUM: " RESULT.
+           STOP RUN.
